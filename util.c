@@ -71,3 +71,25 @@ void setGPIOPullMode(GPIO_TypeDef *b, uint8_t pin, uint8_t m) {
 	b->PUPDR &= ~(1 << shifter);
 	b->PUPDR |= (m << shifter);
 } 
+
+//Init USART1 for 2Mbaud at 72MHz
+void U1init() {
+	RCC->APB2ENR |= 0x10; //UART1 On
+	USART1->BRR = 0x24; //2.25 (2MBaud @ 72MHz)
+	USART1->CR1 = 0x200c; //USART1 Enable, TX and RX Enable
+}
+
+//Send string d via USART1
+void U1print(char *d) {
+	uint32_t i = 0;
+	while(d[i]) {
+		U1putch(d[i]);
+		i++;
+	}
+}
+
+//Send 1 letter via USART1
+void U1putch(char d) {
+	USART1->DR = d; 
+	while((USART1->SR & 0x80) == 0); //wait for TXE=1 (transfer complete)
+}

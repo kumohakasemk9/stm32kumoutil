@@ -19,3 +19,6 @@ void toggleGPIO(GPIO_TypeDef*, uint8_t);
 void writeGPIO(GPIO_TypeDef*, uint8_t, uint8_t);
 uint8_t readGPIO(GPIO_TypeDef*, uint8_t);
 void setGPIOPullMode(GPIO_TypeDef*, uint8_t, uint8_t);
+void U1putch(char);
+void U1print(char*);
+void U1init();
